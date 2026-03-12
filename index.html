@@ -58,7 +58,7 @@ canvas { display:block; border-radius:10px; border:1.5px solid #1e3a5f; box-shad
 .overlay {
   position:absolute;
   top:0; left:10px; right:10px; bottom:0;
-  background:transparent;
+  background:rgba(10,15,30,0.93);
   border-radius:10px;
   display:flex;
   flex-direction:column;
@@ -68,13 +68,14 @@ canvas { display:block; border-radius:10px; border:1.5px solid #1e3a5f; box-shad
   z-index:10;
 }
 .overlay.hidden { display:none; }
+.overlay.no-bg { background:transparent; }
 
 .ov-icon { font-size:46px; }
-.ov-title { font-size:22px; font-weight:800; color:#00ff9d; text-shadow:0 0 16px rgba(0,255,157,0.5); letter-spacing:2px; }
+.ov-title { font-size:22px; font-weight:800; color:#00ff9d; letter-spacing:2px; }
 .ov-sub { font-size:12px; color:#64748b; text-align:center; padding:0 20px; line-height:1.6; }
-.ov-score { font-size:40px; font-weight:900; color:#00ff9d; text-shadow:0 0 20px rgba(0,255,157,0.5); }
-.ov-best { font-size:13px; color:#00ccff; }
-.ov-lvl { font-size:11px; color:#ff9d00; margin-top:2px; }
+.ov-score { font-size:36px; font-weight:900; color:#00ff9d; line-height:1; }
+.ov-best { font-size:12px; color:#00ccff; }
+.ov-lvl { font-size:11px; color:#ff9d00; }
 
 .btn {
   background:linear-gradient(135deg,#00ff9d,#00ccff);
@@ -918,6 +919,8 @@ async function gameOver(won) {
     '<button class="btn2" id="lbDeathBtn">★ ТОП</button>'+
     '</div>';
   ov.classList.remove('hidden');
+  ov.classList.add('no-bg');
+  ov.style.gap = '4px';
   document.getElementById('rBtn').onclick = startGame;
   document.getElementById('mBtn').onclick = showMenu;
   document.getElementById('lbDeathBtn').onclick = openLeaderboard;
@@ -935,6 +938,8 @@ function showMenu() {
     '<button class="btn" id="startBtn2">ИГРАТЬ</button>'+
     '<button class="btn2" id="lbMenuBtn2" style="margin-top:2px">★ Таблица лидеров</button>';
   ov.classList.remove('hidden');
+  ov.classList.remove('no-bg');
+  ov.style.gap = '8px';
   document.getElementById('startBtn2').onclick = startGame;
   document.getElementById('lbMenuBtn2').onclick = openLeaderboard;
   init();
