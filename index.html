@@ -293,20 +293,22 @@ canvas { display:block; border-radius:10px; border:1.5px solid #1e3a5f; box-shad
 }
 .notif.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
-/* Twemoji */
-img.emoji {
-  height:1em; width:1em;
-  margin:0 0.05em 0 0.1em;
-  vertical-align:-0.1em;
-  display:inline-block;
-}
+/* SVG icons */
+.ico { display:inline-block; vertical-align:middle; flex-shrink:0; }
 </style>
 </head>
 <body>
 
 <!-- NICKNAME SCREEN -->
 <div class="nick-screen" id="nickScreen">
-  <div class="ov-icon">🐍</div>
+  <div class="ov-icon">
+    <!-- Snake SVG -->
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8 36 Q8 44 16 44 Q24 44 24 36 L24 20 Q24 12 32 12 Q40 12 40 20 Q40 28 32 28 L20 28" stroke="#00ff9d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="40" cy="10" r="3" fill="#00ff9d"/>
+      <circle cx="43" cy="8" r="1.5" fill="#0a0f1e"/>
+    </svg>
+  </div>
   <div class="nick-title">ЗМЕЙКА</div>
   <div class="nick-sub">Введи своё имя для таблицы лидеров</div>
   <input class="nick-input" id="nickInput" type="text" maxlength="20" placeholder="Твоё имя...">
@@ -315,7 +317,14 @@ img.emoji {
 
 <!-- HEADER -->
 <div class="header">
-  <div class="logo">🐍 SNAKE</div>
+  <div class="logo" style="display:flex;align-items:center;gap:6px">
+    <svg class="ico" width="22" height="22" viewBox="0 0 52 52" fill="none">
+      <path d="M8 36 Q8 44 16 44 Q24 44 24 36 L24 20 Q24 12 32 12 Q40 12 40 20 Q40 28 32 28 L20 28" stroke="#00ff9d" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="40" cy="10" r="3.5" fill="#00ff9d"/>
+      <circle cx="43" cy="8" r="1.5" fill="#0a0f1e"/>
+    </svg>
+    SNAKE
+  </div>
   <div class="scores">
     <div class="score-box">
       <div class="score-label">Счёт</div>
@@ -332,11 +341,20 @@ img.emoji {
 <div class="canvas-wrap">
   <canvas id="c"></canvas>
   <div class="overlay" id="ov">
-    <div class="ov-icon">🐍</div>
+    <div class="ov-icon">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+        <path d="M8 36 Q8 44 16 44 Q24 44 24 36 L24 20 Q24 12 32 12 Q40 12 40 20 Q40 28 32 28 L20 28" stroke="#00ff9d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <circle cx="40" cy="10" r="3" fill="#00ff9d"/>
+        <circle cx="43" cy="8" r="1.5" fill="#0a0f1e"/>
+      </svg>
+    </div>
     <div class="ov-title">ЗМЕЙКА</div>
-    <div class="ov-sub">Со 2-го уровня — стены<br>С 3-го — ядовитое яблоко ☠️</div>
+    <div class="ov-sub">Со 2-го уровня — стены<br>С 3-го — ядовитое яблоко</div>
     <button class="btn" id="startBtn">ИГРАТЬ</button>
-    <button class="btn2" id="lbMenuBtn" style="margin-top:2px">🏆 Таблица лидеров</button>
+    <button class="btn2" id="lbMenuBtn" style="margin-top:2px;display:flex;align-items:center;gap:6px">
+      <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="#00ff9d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Таблица лидеров
+    </button>
   </div>
 </div>
 
@@ -378,12 +396,18 @@ img.emoji {
     <button class="toggle-btn active" id="toggleDpad">D-PAD</button>
     <button class="toggle-btn" id="toggleJoy">СТИК</button>
   </div>
-  <div class="lb-open-btn" id="lbOpenBtn">🏆 Лидеры</div>
+  <div class="lb-open-btn" id="lbOpenBtn" style="display:flex;align-items:center;gap:6px">
+    <svg class="ico" width="16" height="16" viewBox="0 0 24 24" fill="#00ccff"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    Лидеры
+  </div>
 </div>
 
 <!-- LEADERBOARD -->
 <div class="lb-overlay hidden" id="lbOverlay">
-  <div class="lb-title">🏆 ТАБЛИЦА ЛИДЕРОВ</div>
+  <div class="lb-title" style="display:flex;align-items:center;gap:8px">
+    <svg class="ico" width="22" height="22" viewBox="0 0 24 24" fill="#00ff9d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+    ТАБЛИЦА ЛИДЕРОВ
+  </div>
   <div class="lb-list" id="lbList"><div class="lb-loading">Загрузка...</div></div>
   <button class="btn2" id="lbClose">ЗАКРЫТЬ</button>
 </div>
@@ -822,9 +846,12 @@ async function gameOver(won) {
     } catch(e) { console.warn('Firebase:', e); }
   }
 
+  var snakeSvg = '<svg width="42" height="42" viewBox="0 0 52 52" fill="none"><path d="M8 36 Q8 44 16 44 Q24 44 24 36 L24 20 Q24 12 32 12 Q40 12 40 20 Q40 28 32 28 L20 28" stroke="#00ff9d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="40" cy="10" r="3" fill="#00ff9d"/><circle cx="43" cy="8" r="1.5" fill="#0a0f1e"/></svg>';
+  var deadSvg = '<svg width="42" height="42" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#ff4444" stroke-width="2"/><path d="M8 8 L16 16 M16 8 L8 16" stroke="#ff4444" stroke-width="2.5" stroke-linecap="round"/></svg>';
+  var wonSvg = '<svg width="42" height="42" viewBox="0 0 24 24" fill="#ffd700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
   var ov = document.getElementById('ov');
   ov.innerHTML =
-    '<div class="ov-icon">'+(won?'🏆':'💀')+'</div>'+
+    '<div class="ov-icon">'+(won ? wonSvg : deadSvg)+'</div>'+
     '<div class="ov-title">'+(won?'ПОБЕДА!':'КОНЕЦ')+'</div>'+
     '<div class="ov-sub">Ваш счёт</div>'+
     '<div class="ov-score">'+score+'</div>'+
@@ -833,7 +860,7 @@ async function gameOver(won) {
     '<button class="btn" id="rBtn">ЕЩЁ РАЗ</button>'+
     '<div style="display:flex;gap:8px;margin-top:4px">'+
     '<button class="btn2" id="mBtn">МЕНЮ</button>'+
-    '<button class="btn2" id="lbDeathBtn">🏆 ТОП</button>'+
+    '<button class="btn2" id="lbDeathBtn" style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00ff9d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> ТОП</button>'+
     '</div>';
   ov.classList.remove('hidden');
   document.getElementById('rBtn').onclick = startGame;
@@ -843,14 +870,15 @@ async function gameOver(won) {
 
 function showMenu() {
   level = 1; score = 0;
+  var snakeSvg2 = '<svg width="42" height="42" viewBox="0 0 52 52" fill="none"><path d="M8 36 Q8 44 16 44 Q24 44 24 36 L24 20 Q24 12 32 12 Q40 12 40 20 Q40 28 32 28 L20 28" stroke="#00ff9d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="40" cy="10" r="3" fill="#00ff9d"/><circle cx="43" cy="8" r="1.5" fill="#0a0f1e"/></svg>';
   var ov = document.getElementById('ov');
   ov.innerHTML =
-    '<div class="ov-icon">🐍</div>'+
+    '<div class="ov-icon">'+snakeSvg2+'</div>'+
     '<div class="ov-title">ЗМЕЙКА</div>'+
-    '<div class="ov-sub">Со 2-го уровня — стены<br>С 3-го — ядовитое яблоко ☠️</div>'+
+    '<div class="ov-sub">Со 2-го уровня — стены<br>С 3-го — ядовитое яблоко</div>'+
     '<div class="ov-best" style="margin-top:2px">Рекорд: '+bestScore+'</div>'+
     '<button class="btn" id="startBtn2">ИГРАТЬ</button>'+
-    '<button class="btn2" id="lbMenuBtn2" style="margin-top:2px">🏆 Таблица лидеров</button>';
+    '<button class="btn2" id="lbMenuBtn2" style="margin-top:2px;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#00ff9d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Таблица лидеров</button>';
   ov.classList.remove('hidden');
   document.getElementById('startBtn2').onclick = startGame;
   document.getElementById('lbMenuBtn2').onclick = openLeaderboard;
@@ -883,7 +911,11 @@ async function openLeaderboard() {
       lbList.innerHTML = '<div class="lb-loading">Пока нет результатов — сыграй первым! 🎮</div>';
       return;
     }
-    var medals = ['🥇','🥈','🥉'];
+    var medals = [
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="#C0C0C0"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="#CD7F32"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>'
+    ];
     var html = '';
     items.forEach(function(item, i) {
       var isMe = item.id === playerId;
@@ -990,27 +1022,6 @@ function notify(msg){
 level = 1; score = 0;
 init();
 animLoop();
-</script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/twemoji.min.js"></script>
-<script>
-// Apply Twemoji to whole page and re-apply after dynamic content changes
-function applyTwemoji() {
-  twemoji.parse(document.body, {
-    folder: 'svg',
-    ext: '.svg',
-    base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/'
-  });
-}
-
-// Initial parse
-applyTwemoji();
-
-// Re-parse when overlay content changes (game over, menu etc.)
-var ov = document.getElementById('ov');
-var observer = new MutationObserver(function() { applyTwemoji(); });
-observer.observe(ov, { childList: true, subtree: true });
-observer.observe(document.getElementById('lvlAnnounce'), { childList: true, subtree: true });
 </script>
 </body>
 </html>
