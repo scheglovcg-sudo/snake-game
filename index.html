@@ -292,6 +292,14 @@ canvas { display:block; border-radius:10px; border:1.5px solid #1e3a5f; box-shad
   z-index:99; letter-spacing:1px;
 }
 .notif.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* Twemoji */
+img.emoji {
+  height:1em; width:1em;
+  margin:0 0.05em 0 0.1em;
+  vertical-align:-0.1em;
+  display:inline-block;
+}
 </style>
 </head>
 <body>
@@ -348,13 +356,13 @@ canvas { display:block; border-radius:10px; border:1.5px solid #1e3a5f; box-shad
 <!-- DPAD -->
 <div class="dpad" id="dpadEl">
   <div></div>
-  <div class="db" id="bUp">▲</div>
+  <div class="db" id="bUp"><span>▲</span></div>
   <div></div>
-  <div class="db" id="bLeft">◄</div>
+  <div class="db" id="bLeft"><span style="display:inline-block;transform:rotate(-90deg)">▲</span></div>
   <div class="dc" id="bPause">⏸</div>
-  <div class="db" id="bRight">►</div>
+  <div class="db" id="bRight"><span style="display:inline-block;transform:rotate(90deg)">▲</span></div>
   <div></div>
-  <div class="db" id="bDown">▼</div>
+  <div class="db" id="bDown"><span style="display:inline-block;transform:rotate(180deg)">▲</span></div>
   <div></div>
 </div>
 
@@ -866,7 +874,7 @@ async function openLeaderboard() {
   lbOverlay.classList.remove('hidden');
   lbList.innerHTML = '<div class="lb-loading">Загрузка...</div>';
   try {
-    var q = query(collection(db, 'leaderboard'), orderBy('score','desc'), limit(20));
+    var q = query(collection(db, 'leaderboard'), orderBy('score','desc'), limit(10));
     var snap = await getDocs(q);
     var items = [];
     snap.forEach(function(d){ items.push({id:d.id, ...d.data()}); });
@@ -982,6 +990,27 @@ function notify(msg){
 level = 1; score = 0;
 init();
 animLoop();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/twemoji.min.js"></script>
+<script>
+// Apply Twemoji to whole page and re-apply after dynamic content changes
+function applyTwemoji() {
+  twemoji.parse(document.body, {
+    folder: 'svg',
+    ext: '.svg',
+    base: 'https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/'
+  });
+}
+
+// Initial parse
+applyTwemoji();
+
+// Re-parse when overlay content changes (game over, menu etc.)
+var ov = document.getElementById('ov');
+var observer = new MutationObserver(function() { applyTwemoji(); });
+observer.observe(ov, { childList: true, subtree: true });
+observer.observe(document.getElementById('lvlAnnounce'), { childList: true, subtree: true });
 </script>
 </body>
 </html>
