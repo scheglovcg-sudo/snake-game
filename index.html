@@ -57,8 +57,8 @@ canvas { display:block; border-radius:10px; border:1.5px solid #1e3a5f; box-shad
 /* OVERLAY */
 .overlay {
   position:absolute;
-  top:0; left:10px; right:10px; bottom:0;
-  background:rgba(10,15,30,0.93);
+  top:0; left:0; right:0; bottom:0;
+  background:#0a0f1e;
   border-radius:10px;
   display:flex;
   flex-direction:column;
@@ -904,23 +904,22 @@ async function gameOver(won) {
     } catch(e) { console.warn('Firebase:', e); }
   }
 
-  var SKULL_SVG = '<svg width="72" height="72" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="3" y="1" width="4" height="1" fill="#ff4444"/><rect x="2" y="2" width="6" height="1" fill="#ff4444"/><rect x="1" y="3" width="8" height="3" fill="#ff4444"/><rect x="2" y="6" width="2" height="1" fill="#ff4444"/><rect x="4" y="6" width="2" height="1" fill="#ff4444"/><rect x="6" y="6" width="2" height="1" fill="#ff4444"/><rect x="2" y="7" width="2" height="1" fill="#ff4444"/><rect x="6" y="7" width="2" height="1" fill="#ff4444"/><rect x="2" y="4" width="2" height="2" fill="#0a0f1e"/><rect x="6" y="4" width="2" height="2" fill="#0a0f1e"/><rect x="4" y="5" width="2" height="1" fill="#cc2222"/></svg>';
-  var WIN_SVG = '<svg width="72" height="72" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="4" y="0" width="2" height="1" fill="#ffd700"/><rect x="3" y="1" width="4" height="1" fill="#ffd700"/><rect x="0" y="2" width="10" height="1" fill="#ffd700"/><rect x="1" y="3" width="8" height="1" fill="#ffd700"/><rect x="2" y="4" width="6" height="1" fill="#ffd700"/><rect x="3" y="5" width="4" height="1" fill="#ffd700"/><rect x="4" y="6" width="2" height="1" fill="#ffd700"/><rect x="3" y="7" width="4" height="1" fill="#ffd700"/><rect x="2" y="8" width="6" height="1" fill="#ffd700"/></svg>';
+  var SKULL_SVG = '<svg width="52" height="52" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="3" y="1" width="4" height="1" fill="#ff4444"/><rect x="2" y="2" width="6" height="1" fill="#ff4444"/><rect x="1" y="3" width="8" height="3" fill="#ff4444"/><rect x="2" y="6" width="2" height="1" fill="#ff4444"/><rect x="4" y="6" width="2" height="1" fill="#ff4444"/><rect x="6" y="6" width="2" height="1" fill="#ff4444"/><rect x="2" y="7" width="2" height="1" fill="#ff4444"/><rect x="6" y="7" width="2" height="1" fill="#ff4444"/><rect x="2" y="4" width="2" height="2" fill="#0a0f1e"/><rect x="6" y="4" width="2" height="2" fill="#0a0f1e"/><rect x="4" y="5" width="2" height="1" fill="#cc2222"/></svg>';
+  var WIN_SVG = '<svg width="52" height="52" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="4" y="0" width="2" height="1" fill="#ffd700"/><rect x="3" y="1" width="4" height="1" fill="#ffd700"/><rect x="0" y="2" width="10" height="1" fill="#ffd700"/><rect x="1" y="3" width="8" height="1" fill="#ffd700"/><rect x="2" y="4" width="6" height="1" fill="#ffd700"/><rect x="3" y="5" width="4" height="1" fill="#ffd700"/><rect x="4" y="6" width="2" height="1" fill="#ffd700"/><rect x="3" y="7" width="4" height="1" fill="#ffd700"/><rect x="2" y="8" width="6" height="1" fill="#ffd700"/></svg>';
   var ov = document.getElementById('ov');
   ov.innerHTML =
     '<div class="ov-icon">'+(won ? WIN_SVG : SKULL_SVG)+'</div>'+
     '<div class="ov-title">'+(won ? 'ПОБЕДА!' : 'СЧЁТ')+'</div>'+
+    '<div class="ov-sub">Уровень '+level+' · Рекорд: '+bestScore+'</div>'+
     '<div class="ov-score">'+score+'</div>'+
-    '<div class="ov-best">Рекорд: '+bestScore+'</div>'+
-    '<div class="ov-lvl">Уровень '+level+'</div>'+
     '<button class="btn" id="rBtn">ЕЩЁ РАЗ</button>'+
-    '<div style="display:flex;gap:8px;margin-top:4px">'+
+    '<div style="display:flex;gap:8px">'+
     '<button class="btn2" id="mBtn">МЕНЮ</button>'+
     '<button class="btn2" id="lbDeathBtn">★ ТОП</button>'+
     '</div>';
   ov.classList.remove('hidden');
-  ov.classList.add('no-bg');
-  ov.style.gap = '4px';
+  ov.classList.remove('no-bg');
+  ov.style.gap = '8px';
   document.getElementById('rBtn').onclick = startGame;
   document.getElementById('mBtn').onclick = showMenu;
   document.getElementById('lbDeathBtn').onclick = openLeaderboard;
