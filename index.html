@@ -798,16 +798,6 @@ function updateUI() {
 }
 
 // ---- Draw ----
-function rr(x,y,w,h,r) {
-  r = Math.min(r, w/2, h/2);
-  ctx.beginPath();
-  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
-  ctx.quadraticCurveTo(x+w,y,x+w,y+r); ctx.lineTo(x+w,y+h-r);
-  ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); ctx.lineTo(x+r,y+h);
-  ctx.quadraticCurveTo(x,y+h,x,y+h-r); ctx.lineTo(x,y+r);
-  ctx.quadraticCurveTo(x,y,x+r,y); ctx.closePath();
-}
-
 function draw() {
   var W = canvas.width, H = canvas.height;
   pulse += 0.07;
@@ -821,60 +811,60 @@ function draw() {
     ctx.fillRect(gx*CELL,gy*CELL,CELL,CELL);
   }
 
-  // Walls
+  // Walls — sharp squares, full cell
   walls.forEach(function(wl) {
     ctx.fillStyle = '#2a3a5a';
-    rr(wl.x*CELL+1,wl.y*CELL+1,CELL-2,CELL-2,2);
-    ctx.fill();
+    ctx.fillRect(wl.x*CELL, wl.y*CELL, CELL, CELL);
+    // subtle inner cross detail
     ctx.fillStyle = '#1e2a42';
-    ctx.fillRect(wl.x*CELL+CELL/2-0.5,wl.y*CELL+2,1,CELL-4);
-    ctx.fillRect(wl.x*CELL+2,wl.y*CELL+CELL/2-0.5,CELL-4,1);
+    ctx.fillRect(wl.x*CELL+CELL/2-0.5, wl.y*CELL+2, 1, CELL-4);
+    ctx.fillRect(wl.x*CELL+2, wl.y*CELL+CELL/2-0.5, CELL-4, 1);
   });
 
-  // Bad apple
+  // Bad apple — circle with pixel skull
   if (badApple) {
+    var bx = badApple.x*CELL+CELL/2, by = badApple.y*CELL+CELL/2, br = CELL/2-1;
     ctx.shadowBlur = 12 + Math.sin(pulse*1.5)*3;
     ctx.shadowColor = '#aa00ff';
     ctx.fillStyle = '#cc44ff';
-    rr(badApple.x*CELL+3,badApple.y*CELL+3,CELL-6,CELL-6,4);
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(bx, by, br, 0, Math.PI*2); ctx.fill();
     ctx.shadowBlur = 0;
-    ctx.font = Math.floor(CELL*0.55)+'px serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.fillText('☠', badApple.x*CELL+CELL/2, badApple.y*CELL+CELL/2+1);
-    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+    // pixel skull: eyes
+    var ps = Math.max(1, Math.floor(CELL/8));
+    ctx.fillStyle = '#0a0f1e';
+    ctx.fillRect(bx-ps*1.5-ps/2, by-ps, ps, ps); // left eye
+    ctx.fillRect(bx+ps*0.5, by-ps, ps, ps); // right eye
+    // teeth
+    ctx.fillRect(bx-ps*1.5, by+ps*0.5, ps, ps);
+    ctx.fillRect(bx+ps*0.5, by+ps*0.5, ps, ps);
   }
 
-  // Food
+  // Food — circle
+  var fx = food.x*CELL+CELL/2, fy = food.y*CELL+CELL/2, fr = CELL/2-2;
   ctx.shadowBlur = 16 + Math.sin(pulse)*3;
   ctx.shadowColor = '#ff6b35';
   ctx.fillStyle = '#ff6b35';
-  rr(food.x*CELL+3,food.y*CELL+3,CELL-6,CELL-6,4);
-  ctx.fill();
+  ctx.beginPath(); ctx.arc(fx, fy, fr, 0, Math.PI*2); ctx.fill();
   ctx.shadowBlur = 0;
-  ctx.fillStyle = 'rgba(255,255,255,0.8)';
-  ctx.beginPath();
-  ctx.arc(food.x*CELL+CELL/2,food.y*CELL+CELL/2,CELL/7,0,Math.PI*2);
-  ctx.fill();
+  // shine dot
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  ctx.beginPath(); ctx.arc(fx - fr*0.28, fy - fr*0.28, fr*0.22, 0, Math.PI*2); ctx.fill();
 
-  // Snake
+  // Snake — sharp squares, full cell, no padding
   for (var i=0;i<snake.length;i++) {
     var seg = snake[i], isHead = i===0;
     var t = 1 - i/snake.length;
-    var g = Math.floor(180+t*75);
-    ctx.shadowBlur = isHead ? 16 : 0;
+    var g = Math.floor(155+t*100);
+    ctx.shadowBlur = isHead ? 14 : 0;
     ctx.shadowColor = '#00ff9d';
-    ctx.fillStyle = isHead ? '#00ff9d' : ('rgb(0,'+g+','+Math.floor(t*100)+')');
-    var p = isHead?1:2, s = CELL-p*2;
-    rr(seg.x*CELL+p,seg.y*CELL+p,s,s,isHead?5:3);
-    ctx.fill();
+    ctx.fillStyle = isHead ? '#00ff9d' : ('rgb(0,'+g+','+Math.floor(t*80)+')');
+    ctx.fillRect(seg.x*CELL, seg.y*CELL, CELL, CELL);
     if (isHead) {
       ctx.shadowBlur = 0; ctx.fillStyle = '#0a0f1e';
-      var cx=seg.x*CELL+CELL/2, cy=seg.y*CELL+CELL/2;
-      var eo=CELL*0.18, ea=CELL*0.14, er=CELL/7;
-      ctx.beginPath(); ctx.arc(cx-dir.y*eo+dir.x*ea,cy-dir.x*eo+dir.y*ea,er,0,Math.PI*2); ctx.fill();
-      ctx.beginPath(); ctx.arc(cx+dir.y*eo+dir.x*ea,cy+dir.x*eo+dir.y*ea,er,0,Math.PI*2); ctx.fill();
+      var hcx=seg.x*CELL+CELL/2, hcy=seg.y*CELL+CELL/2;
+      var eo=CELL*0.18, ea=CELL*0.12, er=Math.max(1,CELL/7);
+      ctx.beginPath(); ctx.arc(hcx-dir.y*eo+dir.x*ea, hcy-dir.x*eo+dir.y*ea, er, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(hcx+dir.y*eo+dir.x*ea, hcy+dir.x*eo+dir.y*ea, er, 0, Math.PI*2); ctx.fill();
     }
   }
   ctx.shadowBlur = 0;
@@ -907,17 +897,13 @@ async function gameOver(won) {
     } catch(e) { console.warn('Firebase:', e); }
   }
 
-  var PIXEL_SNAKE = '<svg width="48" height="48" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="6" y="1" width="1" height="1" fill="#00ff9d"/><rect x="7" y="1" width="1" height="1" fill="#00ff9d"/><rect x="8" y="1" width="1" height="1" fill="#00ff9d"/><rect x="8" y="2" width="1" height="1" fill="#00ff9d"/><rect x="8" y="3" width="1" height="1" fill="#00ff9d"/><rect x="7" y="3" width="1" height="1" fill="#00ff9d"/><rect x="6" y="3" width="1" height="1" fill="#00ff9d"/><rect x="5" y="3" width="1" height="1" fill="#00ff9d"/><rect x="4" y="3" width="1" height="1" fill="#00ff9d"/><rect x="3" y="3" width="1" height="1" fill="#00ff9d"/><rect x="2" y="3" width="1" height="1" fill="#00ff9d"/><rect x="2" y="4" width="1" height="1" fill="#00ff9d"/><rect x="2" y="5" width="1" height="1" fill="#00ff9d"/><rect x="3" y="5" width="1" height="1" fill="#00ff9d"/><rect x="4" y="5" width="1" height="1" fill="#00ff9d"/><rect x="5" y="5" width="1" height="1" fill="#00ff9d"/><rect x="6" y="5" width="1" height="1" fill="#00ff9d"/><rect x="6" y="6" width="1" height="1" fill="#00ff9d"/><rect x="6" y="7" width="1" height="1" fill="#00ff9d"/><rect x="5" y="7" width="1" height="1" fill="#00ff9d"/><rect x="4" y="7" width="1" height="1" fill="#00ff9d"/><rect x="3" y="7" width="1" height="1" fill="#00ff9d"/><rect x="2" y="7" width="1" height="1" fill="#00ff9d"/><rect x="1" y="7" width="1" height="1" fill="#00ff9d"/><rect x="1" y="8" width="1" height="1" fill="#00ff9d"/><rect x="9" y="1" width="1" height="1" fill="#0a0f1e"/></svg>';
-  var deadSvg = '<svg width="48" height="48" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="1" y="1" width="1" height="1" fill="#ff4444"/><rect x="2" y="2" width="1" height="1" fill="#ff4444"/><rect x="3" y="3" width="1" height="1" fill="#ff4444"/><rect x="4" y="4" width="1" height="1" fill="#ff4444"/><rect x="5" y="5" width="1" height="1" fill="#ff4444"/><rect x="6" y="6" width="1" height="1" fill="#ff4444"/><rect x="7" y="7" width="1" height="1" fill="#ff4444"/><rect x="8" y="8" width="1" height="1" fill="#ff4444"/><rect x="8" y="1" width="1" height="1" fill="#ff4444"/><rect x="7" y="2" width="1" height="1" fill="#ff4444"/><rect x="6" y="3" width="1" height="1" fill="#ff4444"/><rect x="5" y="4" width="1" height="1" fill="#ff4444"/><rect x="4" y="5" width="1" height="1" fill="#ff4444"/><rect x="3" y="6" width="1" height="1" fill="#ff4444"/><rect x="2" y="7" width="1" height="1" fill="#ff4444"/><rect x="1" y="8" width="1" height="1" fill="#ff4444"/></svg>';
-  var wonSvg = '<svg width="48" height="48" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="4" y="0" width="2" height="1" fill="#ffd700"/><rect x="3" y="1" width="4" height="1" fill="#ffd700"/><rect x="0" y="2" width="10" height="1" fill="#ffd700"/><rect x="1" y="3" width="8" height="1" fill="#ffd700"/><rect x="2" y="4" width="6" height="1" fill="#ffd700"/><rect x="3" y="5" width="4" height="1" fill="#ffd700"/><rect x="4" y="6" width="2" height="1" fill="#ffd700"/><rect x="3" y="7" width="4" height="1" fill="#ffd700"/><rect x="2" y="8" width="6" height="1" fill="#ffd700"/></svg>';
+  var SKULL_SVG = '<svg width="52" height="52" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="3" y="1" width="4" height="1" fill="#ff4444"/><rect x="2" y="2" width="6" height="1" fill="#ff4444"/><rect x="1" y="3" width="8" height="3" fill="#ff4444"/><rect x="2" y="6" width="2" height="1" fill="#ff4444"/><rect x="4" y="6" width="2" height="1" fill="#ff4444"/><rect x="6" y="6" width="2" height="1" fill="#ff4444"/><rect x="2" y="7" width="2" height="1" fill="#ff4444"/><rect x="6" y="7" width="2" height="1" fill="#ff4444"/><!-- eyes --><rect x="2" y="4" width="2" height="2" fill="#0a0f1e"/><rect x="6" y="4" width="2" height="2" fill="#0a0f1e"/><!-- nose --><rect x="4" y="5" width="2" height="1" fill="#cc2222"/></svg>';
+  var WIN_SVG = '<svg width="52" height="52" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="4" y="0" width="2" height="1" fill="#ffd700"/><rect x="3" y="1" width="4" height="1" fill="#ffd700"/><rect x="0" y="2" width="10" height="1" fill="#ffd700"/><rect x="1" y="3" width="8" height="1" fill="#ffd700"/><rect x="2" y="4" width="6" height="1" fill="#ffd700"/><rect x="3" y="5" width="4" height="1" fill="#ffd700"/><rect x="4" y="6" width="2" height="1" fill="#ffd700"/><rect x="3" y="7" width="4" height="1" fill="#ffd700"/><rect x="2" y="8" width="6" height="1" fill="#ffd700"/></svg>';
   var ov = document.getElementById('ov');
   ov.innerHTML =
-    '<div class="ov-icon">'+(won ? wonSvg : deadSvg)+'</div>'+
-    '<div class="ov-title">'+(won?'ПОБЕДА!':'КОНЕЦ')+'</div>'+
-    '<div class="ov-sub">Ваш счёт</div>'+
+    '<div class="ov-icon">'+(won ? WIN_SVG : SKULL_SVG)+'</div>'+
+    '<div class="ov-title">'+(won?'ПОБЕДА!':'ИГРА')+'</div>'+
     '<div class="ov-score">'+score+'</div>'+
-    '<div class="ov-best">Рекорд: '+bestScore+'</div>'+
-    '<div class="ov-lvl">Уровень '+level+'</div>'+
     '<button class="btn" id="rBtn">ЕЩЁ РАЗ</button>'+
     '<div style="display:flex;gap:8px;margin-top:4px">'+
     '<button class="btn2" id="mBtn">МЕНЮ</button>'+
