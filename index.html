@@ -732,7 +732,7 @@ function step() {
     for (var c = 0; c < cut; c++) snake.pop();
     score = Math.max(0, score - level * 15);
     badApple = randomEmpty([food]);
-    notify('☠️ Яд! -' + (level*15) + ' очков');
+    notify('Яд! -' + (level*15) + ' очков');
     // Don't remove tail again below
   } else {
     snake.pop();
@@ -758,14 +758,14 @@ function levelComplete() {
   var lvlDescs = [
     '', '',
     'Появились стены!',
-    'Ядовитое яблоко ☠️',
+    'Ядовитое яблоко!',
     'Стены усложнились!',
     'Ещё сложнее!',
     'Спираль из стен!',
     'Шашечный узор!',
     'Сложный лабиринт!',
     'Плотные препятствия!',
-    '🔥 Финальный уровень!'
+    'ФИНАЛЬНЫЙ УРОВЕНЬ!'
   ];
 
   document.getElementById('lvlAnnTitle').textContent = 'УРОВЕНЬ ' + level;
@@ -907,9 +907,9 @@ async function gameOver(won) {
     } catch(e) { console.warn('Firebase:', e); }
   }
 
-  var snakeSvg = '<svg width="42" height="42" viewBox="0 0 52 52" fill="none"><path d="M8 36 Q8 44 16 44 Q24 44 24 36 L24 20 Q24 12 32 12 Q40 12 40 20 Q40 28 32 28 L20 28" stroke="#00ff9d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="40" cy="10" r="3" fill="#00ff9d"/><circle cx="43" cy="8" r="1.5" fill="#0a0f1e"/></svg>';
-  var deadSvg = '<svg width="42" height="42" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#ff4444" stroke-width="2"/><path d="M8 8 L16 16 M16 8 L8 16" stroke="#ff4444" stroke-width="2.5" stroke-linecap="round"/></svg>';
-  var wonSvg = '<svg width="42" height="42" viewBox="0 0 24 24" fill="#ffd700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+  var PIXEL_SNAKE = '<svg width="48" height="48" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="6" y="1" width="1" height="1" fill="#00ff9d"/><rect x="7" y="1" width="1" height="1" fill="#00ff9d"/><rect x="8" y="1" width="1" height="1" fill="#00ff9d"/><rect x="8" y="2" width="1" height="1" fill="#00ff9d"/><rect x="8" y="3" width="1" height="1" fill="#00ff9d"/><rect x="7" y="3" width="1" height="1" fill="#00ff9d"/><rect x="6" y="3" width="1" height="1" fill="#00ff9d"/><rect x="5" y="3" width="1" height="1" fill="#00ff9d"/><rect x="4" y="3" width="1" height="1" fill="#00ff9d"/><rect x="3" y="3" width="1" height="1" fill="#00ff9d"/><rect x="2" y="3" width="1" height="1" fill="#00ff9d"/><rect x="2" y="4" width="1" height="1" fill="#00ff9d"/><rect x="2" y="5" width="1" height="1" fill="#00ff9d"/><rect x="3" y="5" width="1" height="1" fill="#00ff9d"/><rect x="4" y="5" width="1" height="1" fill="#00ff9d"/><rect x="5" y="5" width="1" height="1" fill="#00ff9d"/><rect x="6" y="5" width="1" height="1" fill="#00ff9d"/><rect x="6" y="6" width="1" height="1" fill="#00ff9d"/><rect x="6" y="7" width="1" height="1" fill="#00ff9d"/><rect x="5" y="7" width="1" height="1" fill="#00ff9d"/><rect x="4" y="7" width="1" height="1" fill="#00ff9d"/><rect x="3" y="7" width="1" height="1" fill="#00ff9d"/><rect x="2" y="7" width="1" height="1" fill="#00ff9d"/><rect x="1" y="7" width="1" height="1" fill="#00ff9d"/><rect x="1" y="8" width="1" height="1" fill="#00ff9d"/><rect x="9" y="1" width="1" height="1" fill="#0a0f1e"/></svg>';
+  var deadSvg = '<svg width="48" height="48" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="1" y="1" width="1" height="1" fill="#ff4444"/><rect x="2" y="2" width="1" height="1" fill="#ff4444"/><rect x="3" y="3" width="1" height="1" fill="#ff4444"/><rect x="4" y="4" width="1" height="1" fill="#ff4444"/><rect x="5" y="5" width="1" height="1" fill="#ff4444"/><rect x="6" y="6" width="1" height="1" fill="#ff4444"/><rect x="7" y="7" width="1" height="1" fill="#ff4444"/><rect x="8" y="8" width="1" height="1" fill="#ff4444"/><rect x="8" y="1" width="1" height="1" fill="#ff4444"/><rect x="7" y="2" width="1" height="1" fill="#ff4444"/><rect x="6" y="3" width="1" height="1" fill="#ff4444"/><rect x="5" y="4" width="1" height="1" fill="#ff4444"/><rect x="4" y="5" width="1" height="1" fill="#ff4444"/><rect x="3" y="6" width="1" height="1" fill="#ff4444"/><rect x="2" y="7" width="1" height="1" fill="#ff4444"/><rect x="1" y="8" width="1" height="1" fill="#ff4444"/></svg>';
+  var wonSvg = '<svg width="48" height="48" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="4" y="0" width="2" height="1" fill="#ffd700"/><rect x="3" y="1" width="4" height="1" fill="#ffd700"/><rect x="0" y="2" width="10" height="1" fill="#ffd700"/><rect x="1" y="3" width="8" height="1" fill="#ffd700"/><rect x="2" y="4" width="6" height="1" fill="#ffd700"/><rect x="3" y="5" width="4" height="1" fill="#ffd700"/><rect x="4" y="6" width="2" height="1" fill="#ffd700"/><rect x="3" y="7" width="4" height="1" fill="#ffd700"/><rect x="2" y="8" width="6" height="1" fill="#ffd700"/></svg>';
   var ov = document.getElementById('ov');
   ov.innerHTML =
     '<div class="ov-icon">'+(won ? wonSvg : deadSvg)+'</div>'+
@@ -921,7 +921,7 @@ async function gameOver(won) {
     '<button class="btn" id="rBtn">ЕЩЁ РАЗ</button>'+
     '<div style="display:flex;gap:8px;margin-top:4px">'+
     '<button class="btn2" id="mBtn">МЕНЮ</button>'+
-    '<button class="btn2" id="lbDeathBtn" style="display:flex;align-items:center;gap:5px"><svg width="13" height="13" viewBox="0 0 24 24" fill="#00ff9d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> ТОП</button>'+
+    '<button class="btn2" id="lbDeathBtn">★ ТОП</button>'+
     '</div>';
   ov.classList.remove('hidden');
   document.getElementById('rBtn').onclick = startGame;
@@ -931,15 +931,15 @@ async function gameOver(won) {
 
 function showMenu() {
   level = 1; score = 0;
-  var snakeSvg2 = '<svg width="42" height="42" viewBox="0 0 52 52" fill="none"><path d="M8 36 Q8 44 16 44 Q24 44 24 36 L24 20 Q24 12 32 12 Q40 12 40 20 Q40 28 32 28 L20 28" stroke="#00ff9d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="40" cy="10" r="3" fill="#00ff9d"/><circle cx="43" cy="8" r="1.5" fill="#0a0f1e"/></svg>';
+  var PIXEL_SNAKE2 = '<svg width="48" height="48" viewBox="0 0 10 10" shape-rendering="crispEdges"><rect x="6" y="1" width="1" height="1" fill="#00ff9d"/><rect x="7" y="1" width="1" height="1" fill="#00ff9d"/><rect x="8" y="1" width="1" height="1" fill="#00ff9d"/><rect x="8" y="2" width="1" height="1" fill="#00ff9d"/><rect x="8" y="3" width="1" height="1" fill="#00ff9d"/><rect x="7" y="3" width="1" height="1" fill="#00ff9d"/><rect x="6" y="3" width="1" height="1" fill="#00ff9d"/><rect x="5" y="3" width="1" height="1" fill="#00ff9d"/><rect x="4" y="3" width="1" height="1" fill="#00ff9d"/><rect x="3" y="3" width="1" height="1" fill="#00ff9d"/><rect x="2" y="3" width="1" height="1" fill="#00ff9d"/><rect x="2" y="4" width="1" height="1" fill="#00ff9d"/><rect x="2" y="5" width="1" height="1" fill="#00ff9d"/><rect x="3" y="5" width="1" height="1" fill="#00ff9d"/><rect x="4" y="5" width="1" height="1" fill="#00ff9d"/><rect x="5" y="5" width="1" height="1" fill="#00ff9d"/><rect x="6" y="5" width="1" height="1" fill="#00ff9d"/><rect x="6" y="6" width="1" height="1" fill="#00ff9d"/><rect x="6" y="7" width="1" height="1" fill="#00ff9d"/><rect x="5" y="7" width="1" height="1" fill="#00ff9d"/><rect x="4" y="7" width="1" height="1" fill="#00ff9d"/><rect x="3" y="7" width="1" height="1" fill="#00ff9d"/><rect x="2" y="7" width="1" height="1" fill="#00ff9d"/><rect x="1" y="7" width="1" height="1" fill="#00ff9d"/><rect x="1" y="8" width="1" height="1" fill="#00ff9d"/><rect x="9" y="1" width="1" height="1" fill="#0a0f1e"/></svg>';
   var ov = document.getElementById('ov');
   ov.innerHTML =
-    '<div class="ov-icon">'+snakeSvg2+'</div>'+
+    '<div class="ov-icon">'+PIXEL_SNAKE2+'</div>'+
     '<div class="ov-title">ЗМЕЙКА</div>'+
     '<div class="ov-sub">Со 2-го уровня — стены<br>С 3-го — ядовитое яблоко</div>'+
     '<div class="ov-best" style="margin-top:2px">Рекорд: '+bestScore+'</div>'+
     '<button class="btn" id="startBtn2">ИГРАТЬ</button>'+
-    '<button class="btn2" id="lbMenuBtn2" style="margin-top:2px;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="#00ff9d"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Таблица лидеров</button>';
+    '<button class="btn2" id="lbMenuBtn2" style="margin-top:2px">★ Таблица лидеров</button>';
   ov.classList.remove('hidden');
   document.getElementById('startBtn2').onclick = startGame;
   document.getElementById('lbMenuBtn2').onclick = openLeaderboard;
