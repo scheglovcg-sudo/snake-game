@@ -527,6 +527,7 @@ document.getElementById('nickBtn').onclick = function() {
   playerName = val;
   localStorage.setItem('snakePlayerName', playerName);
   nickScreen.classList.add('hidden');
+  showMenu();
 };
 
 document.getElementById('nickInput').addEventListener('keydown', function(e) {
