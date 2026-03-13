@@ -156,7 +156,43 @@ canvas{display:block}
   <canvas id="c"></canvas>
   <!-- overlay populated by JS showMenu()/gameOver() -->
   <!-- JS binds startBtn, lbMenuBtn at module load — keep these hidden stubs -->
-  <div class="overlay hidden" id="ov"></div>
+  <div class="overlay" id="ov">
+    <div class="ov-icon">
+      <svg width="56" height="56" viewBox="0 0 10 10" shape-rendering="crispEdges">
+        <rect x="6" y="1" width="1" height="1" fill="#00ff9d"/>
+        <rect x="7" y="1" width="1" height="1" fill="#00ff9d"/>
+        <rect x="8" y="1" width="1" height="1" fill="#00ff9d"/>
+        <rect x="8" y="2" width="1" height="1" fill="#00ff9d"/>
+        <rect x="8" y="3" width="1" height="1" fill="#00ff9d"/>
+        <rect x="7" y="3" width="1" height="1" fill="#00ff9d"/>
+        <rect x="6" y="3" width="1" height="1" fill="#00ff9d"/>
+        <rect x="5" y="3" width="1" height="1" fill="#00ff9d"/>
+        <rect x="4" y="3" width="1" height="1" fill="#00ff9d"/>
+        <rect x="3" y="3" width="1" height="1" fill="#00ff9d"/>
+        <rect x="2" y="3" width="1" height="1" fill="#00ff9d"/>
+        <rect x="2" y="4" width="1" height="1" fill="#00ff9d"/>
+        <rect x="2" y="5" width="1" height="1" fill="#00ff9d"/>
+        <rect x="3" y="5" width="1" height="1" fill="#00ff9d"/>
+        <rect x="4" y="5" width="1" height="1" fill="#00ff9d"/>
+        <rect x="5" y="5" width="1" height="1" fill="#00ff9d"/>
+        <rect x="6" y="5" width="1" height="1" fill="#00ff9d"/>
+        <rect x="6" y="6" width="1" height="1" fill="#00ff9d"/>
+        <rect x="6" y="7" width="1" height="1" fill="#00ff9d"/>
+        <rect x="5" y="7" width="1" height="1" fill="#00ff9d"/>
+        <rect x="4" y="7" width="1" height="1" fill="#00ff9d"/>
+        <rect x="3" y="7" width="1" height="1" fill="#00ff9d"/>
+        <rect x="2" y="7" width="1" height="1" fill="#00ff9d"/>
+        <rect x="1" y="7" width="1" height="1" fill="#00ff9d"/>
+        <rect x="1" y="8" width="1" height="1" fill="#00ff9d"/>
+        <rect x="9" y="1" width="1" height="1" fill="#0a0f1e"/>
+      </svg>
+    </div>
+    <div class="ov-title">ЗМЕЙКА</div>
+    <div class="ov-sub">Со 2-го уровня — стены<br>С 3-го — ядовитое яблоко</div>
+    <button class="btn" id="startBtn">ИГРАТЬ</button>
+    <button class="btn2" id="lbMenuBtn" style="margin-top:2px">★ Таблица лидеров</button>
+  </div>
+</div>
 </div>
 
 <!-- PROGRESS -->
@@ -219,9 +255,6 @@ canvas{display:block}
      JS does: getElementById('startBtn').onclick  -> exists in showMenu innerHTML, but
      JS also does getElementById('lbMenuBtn').onclick at module scope (line 514 of backup)
      so it MUST exist in the DOM at load time -->
-<button id="startBtn"  style="display:none"></button>
-<button id="lbMenuBtn" style="display:none"></button>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc, collection, getDocs, query, orderBy, limit }
